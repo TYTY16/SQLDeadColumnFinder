@@ -1,5 +1,5 @@
 {
-    "name": "tyty16/mysqldeadcolumnfinder",
+    "name": "tyty16/sqldeadcolumnfinder",
     "type": "library",
     "description": "Finds columns that are null or only have one unique value",
     "keywords": [
@@ -9,7 +9,8 @@
         "finder",
         "pdo",
         "sql",
-        ""
+        "null",
+        "unique"
     ],
     "homepage": "https://github.com/TYTY16",
     "license": "MIT",
