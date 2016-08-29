@@ -1,0 +1,32 @@
+{
+    "name": "tyty16/mysqldeadcolumnfinder",
+    "type": "library",
+    "description": "Finds columns that are null or only have one unique value",
+    "keywords": [
+        "mysql",
+        "dead",
+        "columns",
+        "finder",
+        "pdo",
+        "sql",
+        ""
+    ],
+    "homepage": "https://github.com/TYTY16",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Tyler Tedeschi",
+            "email": "tjtedeschi@gmail.com",
+            "homepage": "http://github.com/TYTY16",
+            "role": "Web Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.1.0"
+    },
+    "autoload": {
+        "psr-0": {
+            "SqlDeadColumnFinder": "src"
+        }
+    },
+}
