@@ -1,15 +1,51 @@
 <?php
 
-class SQLDeadColumnFinder1
+class SQLDeadColumnFinder
 {
     /**
-     * @param string $db
-     * @param int $months
-     * @param boolean $all
-     * @param int $numColumns
-     * @param PDO $db
+     *
+     * Name of the database to be checked
+     *
+     * @var string
+     *
      */
-    private $dbName, $months, $all, $numColumns, $db;
+    public $dbName;
+
+    /**
+     *
+     * The number of months in the past that should be checked
+     *
+     * @var int
+     *
+     */
+    public $months;
+
+    /**
+     *
+     * Whether or not to check all tables, or just tables with a created_at column
+     *
+     * @var boolean
+     *
+     */
+    public $all;
+
+    /**
+     *
+     * The number of columns checked
+     *
+     * @var int
+     *
+     */
+    public $numColumns;
+
+    /**
+     *
+     * The PDO database connection
+     *
+     * @var PDO
+     *
+     */
+    private $db;
 
     /**
      * Create a new instance of SQLDeadColumnFinder.
@@ -46,9 +82,9 @@ class SQLDeadColumnFinder1
     /**
      * Finds tables from information_schema that need to be checked either by date or all
      *
-     * @return Array
+     * @return array
      */
-    private function getTablesToCheck()
+    public function getTablesToCheck()
     {
         $results = [];
         if( $this->all ){
@@ -69,11 +105,11 @@ class SQLDeadColumnFinder1
     /**
      * From the table results, get all the columns that need to be checked from information_schema
      *
-     * @param $tables
+     * @param array $tables
      *
-     * @return Array
+     * @return array
      */
-    private function getColumnsToCheck( $tables )
+    public function getColumnsToCheck( $tables )
     {
         $result = [];
         $results = [];
@@ -96,7 +132,7 @@ class SQLDeadColumnFinder1
      *
      * @return array
      */
-    private function formatTablesWithColumns( $columnsByTable )
+    public function formatTablesWithColumns( $columnsByTable )
     {
         $formattedTablesWithColumns = array();
         foreach( $columnsByTable as $table ){
@@ -115,7 +151,7 @@ class SQLDeadColumnFinder1
      *
      * @return array
      */
-    private function findDeadColumns( $dbWithTablesWithColumns )
+    public function findDeadColumns( $dbWithTablesWithColumns )
     {
         $deadColumns = [];
         $date = date( 'Y-m-d H:i:s', mktime( 0, 0, 0, date( "m" ) - $this->months, date( "d" ), date( "Y" ) ) );
@@ -155,7 +191,7 @@ class SQLDeadColumnFinder1
      *
      * @return void
      */
-    private function outputToFile( $deadColumns )
+    public function outputToFile( $deadColumns )
     {
         $this->file = $this->file . '.csv';
         $fp = fopen( $this->file, 'w' );
