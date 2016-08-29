@@ -66,7 +66,8 @@ class SQLDeadColumnFinder
      *
      * @return void
      */
-    public function __construct( $db, $dbName, $all = false, $months = 6, $file = 'dead-columns' ){
+    public function __construct( $db, $dbName, $all = false, $months = 6, $file = 'dead-columns' )
+    {
         $this->dbName = $dbName;
         $this->db = $db;
         $this->all = $all;
@@ -98,7 +99,7 @@ class SQLDeadColumnFinder
     {
         $results = [];
         if( $this->all ){
-            $stmt = $this->db->prepare( "SELECT * FROM information_schema.TABLES WHERE TABLE_SCHEMA = ?" );
+            $stmt = $this->db->prepare( "SELECT TABLE_NAME, TABLE_SCHEMA FROM information_schema.TABLES WHERE TABLE_SCHEMA = ?" );
             $stmt->execute( array( $this->dbName ) );
         } else{
             $stmt = $this->db->prepare( "SELECT t.TABLE_NAME, t.TABLE_SCHEMA FROM information_schema.TABLES AS t 
@@ -180,7 +181,7 @@ class SQLDeadColumnFinder
                         //$results = DB::select( $selectString, [ $date ] );
                         $stmt = $this->db->prepare( $selectString );
                         $stmt->execute( array( $date ) );
-                        $results = $stmt->fetchAll( PDO::FETCH_ASSOC );
+                        $results = $stmt->fetchAll( \PDO::FETCH_ASSOC );
                         
                     }
                     if( $results[ 0 ][ 'unique_values' ] == 0 || $results[ 0 ][ 'unique_values' ] == 1 ){
