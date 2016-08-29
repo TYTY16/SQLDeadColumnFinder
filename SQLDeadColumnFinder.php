@@ -1,4 +1,14 @@
 <?php
+/**
+ *
+ * This file is part of the SQLDeadColumnFinder for PHP
+ *
+ * @license MIT
+ *
+ */
+namespace SQLDeadColumnFinder;
+
+use PDO;
 
 class SQLDeadColumnFinder
 {
@@ -99,7 +109,7 @@ class SQLDeadColumnFinder
             $stmt->execute( array( $this->dbName ) );
         }
         
-        return $stmt->fetchAll( \PDO::FETCH_ASSOC );
+        return $stmt->fetchAll( PDO::FETCH_ASSOC );
     }
 
     /**
@@ -118,7 +128,7 @@ class SQLDeadColumnFinder
                 FROM information_schema.COLUMNS WHERE TABLE_NAME = ? AND TABLE_SCHEMA = ?" 
             );
             $stmt->execute( array( $table[ 'TABLE_NAME' ], $table[ 'TABLE_SCHEMA' ] ) );
-            $result = $stmt->fetchAll( \PDO::FETCH_ASSOC );
+            $result = $stmt->fetchAll( PDO::FETCH_ASSOC );
             $this->numColumns += sizeof( $result );
             $results[] = $result;
         }
@@ -163,14 +173,14 @@ class SQLDeadColumnFinder
                         $selectString .= " WHERE `$column` IS NOT NULL";
                         $stmt = $this->db->prepare( $selectString );
                         $stmt->execute();
-                        $results = $stmt->fetchAll( \PDO::FETCH_ASSOC );
+                        $results = $stmt->fetchAll( PDO::FETCH_ASSOC );
                         // $results = DB::select( $selectString );
                     } else{
                         $selectString .= " WHERE created_at >= ? AND `$column` IS NOT NULL";
                         //$results = DB::select( $selectString, [ $date ] );
                         $stmt = $this->db->prepare( $selectString );
                         $stmt->execute( array( $date ) );
-                        $results = $stmt->fetchAll( \PDO::FETCH_ASSOC );
+                        $results = $stmt->fetchAll( PDO::FETCH_ASSOC );
                         
                     }
                     if( $results[ 0 ][ 'unique_values' ] == 0 || $results[ 0 ][ 'unique_values' ] == 1 ){
